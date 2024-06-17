@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.foreign.SegmentAllocator;
 import java.time.LocalDate;
@@ -23,5 +26,21 @@ public class Car implements Serializable {
     }
     public static void removeCar(Car car) {
         extent.remove(car);
+    }
+
+    public static void showExtent() {
+        System.out.println("Extent of the class Car");
+
+        for (Car p : extent) {
+            System.out.println(p);
+        }
+    }
+
+    public static void writeExtent(ObjectOutputStream stream) throws IOException {
+        stream.writeObject(extent);
+    }
+
+    public static void readExtent(ObjectInputStream stream) throws IOException, ClassNotFoundException{
+        extent = (ArrayList<Car>) stream.readObject();
     }
 }
