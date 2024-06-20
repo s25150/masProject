@@ -28,6 +28,13 @@ public class Employee extends Person implements Serializable {
         }
     }
 
+    public static void setDiscount(double d){
+        for (Employee e : extent) {
+            e.discount = d;
+        }
+
+    }
+
     public static void writeExtent(ObjectOutputStream stream) throws IOException {
         stream.writeObject(extent);
     }

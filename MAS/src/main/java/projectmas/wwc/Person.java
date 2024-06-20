@@ -39,15 +39,6 @@ public class Person implements Serializable {
         LocalDate currentDate = LocalDate.now();
         return Period.between(birthDate, currentDate).getYears();
     }
-    protected void setDiscount(double d){
-        discount = d;
-        for (Person p : extent) {
-            if(p == this){
-                p.discount = d;
-            }
-        }
-
-    }
 
     public String getName() {
         return name;
@@ -80,4 +71,15 @@ public class Person implements Serializable {
         extent = (ArrayList<Person>) stream.readObject();
     }
 
+    public void addCarRent(CarRent carRent) {
+        if(carRent!=null){
+            carRents.add(carRent);
+            carRent.setPerson(this);
+        }
+    }
+
+    public void removeCarRent(CarRent carRent){
+        carRents.remove(carRent);
+        carRent.removeRenter();
+    }
 }

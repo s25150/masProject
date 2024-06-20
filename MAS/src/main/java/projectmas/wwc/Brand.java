@@ -8,7 +8,26 @@ import java.util.List;
 
 public class Brand implements Serializable {
     private String name;
+    private List<Car> cars = new ArrayList<>();
     private static List<Brand> extent = new ArrayList<>();
+
+    public Brand(String name) {
+        this.name = name;
+    }
+
+    public void addCar(Car car){
+        if(car!=null) {
+            if (!cars.contains(car)) {
+                cars.add(car);
+                car.setBrand(this);
+            }
+        }
+    }
+
+    public void removeCar(Car car) {
+        cars.remove(car);
+        car.removeBrand();
+    }
 
     private static void addBrand(Brand brand){
         extent.add(brand);
@@ -31,5 +50,12 @@ public class Brand implements Serializable {
 
     public static void readExtent(ObjectInputStream stream) throws IOException, ClassNotFoundException{
         extent = (ArrayList<Brand>) stream.readObject();
+    }
+
+    @Override
+    public String toString() {
+        return "Brand{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

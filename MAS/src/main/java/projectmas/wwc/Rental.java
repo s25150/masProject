@@ -39,4 +39,20 @@ public class Rental implements Serializable {
     public static void readExtent(ObjectInputStream stream) throws IOException, ClassNotFoundException{
         extent = (ArrayList<Rental>) stream.readObject();
     }
+
+    public void addCar(Car car) {
+        if(car!=null) {
+            if (!cars.contains(car)) {
+                cars.add(car);
+                car.setRental(this);
+            }
+        }
+
+    }
+
+    public void removeCar(Car car){
+        cars.remove(car);
+        car.removeRental();
+    }
+
 }

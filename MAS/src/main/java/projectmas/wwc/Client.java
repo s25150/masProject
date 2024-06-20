@@ -54,4 +54,16 @@ public class Client extends Person implements Serializable {
     public static void readExtent(ObjectInputStream stream) throws IOException, ClassNotFoundException{
         extent = (ArrayList<Client>) stream.readObject();
     }
+
+    public void getLikedBrands() {
+        if(likedBrands.isEmpty()){
+            System.out.println(this.getName() + " has 0 liked brands");
+        }else {
+            System.out.println("Liked brands of " + this.getName() + ": ");
+            for (Brand s : likedBrands) {
+                System.out.print(s + " ");
+            }
+            System.out.println();
+        }
+    }
 }
