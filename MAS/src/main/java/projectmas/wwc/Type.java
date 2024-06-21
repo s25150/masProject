@@ -27,7 +27,6 @@ public class Type implements Serializable {
 
     public static void showExtent() {
         System.out.println("Extent of the class Type");
-
         for (Type p : extent) {
             System.out.println(p);
         }
@@ -40,7 +39,6 @@ public class Type implements Serializable {
                 car.setType(this);
             }
         }
-
     }
 
     public void removeCar(Car car){

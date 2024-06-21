@@ -19,11 +19,20 @@ public class CarRent <T extends Person> implements Serializable {
 
     public CarRent(LocalDate startDateOfRent, LocalDate endDateOfRent, T renter, Car rentedCar, RentType type) {
         this.startDateOfRent = startDateOfRent;
-        this.endDateOfRent = endDateOfRent;
-        this.type = type; //do przerobienia w zaleznosci od IsPerson albo IsEmployee
+        this.endDateOfRent = endDateOfRent;//do przerobienia w zaleznosci od IsPerson albo IsEmployee
         this.setPerson(renter);
         this.setCar(rentedCar);
+        setRentType(renter);
         totalCost = getTotalCost(renter, rentedCar, startDateOfRent, endDateOfRent);
+    }
+
+    private void setRentType(T person){
+        PersonType pt = person.getPersonType();
+        if(pt == PersonType.Client){
+            this.type = RentType.normal;
+        }else{
+            this.type = RentType.business;
+        }
     }
 
     private static void addCarRent(CarRent carRent){
@@ -87,5 +96,18 @@ public class CarRent <T extends Person> implements Serializable {
 
     public static void readExtent(ObjectInputStream stream) throws IOException, ClassNotFoundException{
         extent = (ArrayList<CarRent>) stream.readObject();
+    }
+
+    public List<CarRent> getListOfCarRents(Person person) throws  Exception{
+        List<CarRent> result = new ArrayList<>();
+        for (CarRent p : extent) {
+            if(p.renter == person){
+                result.add(p);
+            }
+        }
+        if(result.isEmpty()){
+            throw new Exception("There is no history of car rents for this user");
+        }
+        return result;
     }
 }

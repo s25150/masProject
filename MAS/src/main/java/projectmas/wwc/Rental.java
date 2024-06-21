@@ -14,6 +14,7 @@ public class Rental implements Serializable {
     private List<Car> cars = new ArrayList<>();
     private List<Manager> managers = new ArrayList<>();
     private List<RentalEmployee> employees;
+    private static List<Car> allCars;
     private static List<RentalEmployee> allEmployees;
     private static List<Rental> extent = new ArrayList<>();
 
@@ -73,6 +74,7 @@ public class Rental implements Serializable {
         if(car!=null) {
             if (!cars.contains(car)) {
                 cars.add(car);
+                allCars.add(car);
                 car.setRental(this);
             }
         }
@@ -81,6 +83,7 @@ public class Rental implements Serializable {
 
     public void removeCar(Car car){
         cars.remove(car);
+        allCars.remove(car);
         car.removeRental();
     }
 
@@ -92,6 +95,10 @@ public class Rental implements Serializable {
             this.city = newCity;
             newCity.addRental(this);
         }
+    }
+
+    public City getCity() {
+        return city;
     }
 
     public void removeCity() {
@@ -107,6 +114,32 @@ public class Rental implements Serializable {
             employees.add(employee);
             allEmployees.add(employee);
         }
+    }
+
+    public List<Rental> getRentalsInLocation(City city) throws Exception{
+        List<Rental> result = new ArrayList<>();
+        for (Rental p : extent) {
+            if(p.getCity() == city){
+                result.add(p);
+            }
+        }
+        if(result.isEmpty()){
+            throw new Exception("There are no rentals in " + city);
+        }
+        return result;
+    }
+
+    public static List<Car> getCarsFromBrand(Brand brand) throws Exception {
+        List<Car> result = new ArrayList<>();
+        for (Car c : allCars) {
+            if(c.getBrand() == brand){
+                result.add(c);
+            }
+        }
+        if(result.isEmpty()){
+            throw new Exception("There are no available cars from brand " + brand);
+        }
+        return result;
     }
 
 }

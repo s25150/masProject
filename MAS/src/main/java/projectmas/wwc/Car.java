@@ -74,9 +74,6 @@ public class Car implements Serializable {
         carRent.removeRenter();
     }
 
-    /*public void addCarRent(CarRent cc){
-        carRents.add(cc);
-    }*/
 
     private static void addCar(Car car){
         extent.add(car);
@@ -159,5 +156,11 @@ public class Car implements Serializable {
         brand = null;
     }
 
-
+    public void changeRentCost(int cost) throws Exception{
+        if(cost<=0){
+            throw new Exception("Illegal value, new cost must be higher than 0");
+        }else{
+            this.rentCost = cost;
+        }
+    }
 }

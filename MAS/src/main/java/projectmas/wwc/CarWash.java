@@ -16,12 +16,24 @@ public class CarWash implements Serializable {
     private City city;
     private static List<CarWash> extent = new ArrayList<>();
 
+    public CarWash(LocalTime openingTime, LocalTime closingTime, String address, City city) {
+        this.openingTime = openingTime;
+        this.closingTime = closingTime;
+        this.address = address;
+        this.setCity(city);
+        addCarWash(this);
+    }
+
     private static void addCarWash(CarWash carWash){
         extent.add(carWash);
     }
 
     private static void removeCarWash(CarWash carWash) {
         extent.remove(carWash);
+    }
+
+    public boolean isAlwaysOpen(){
+        return openingTime == closingTime;
     }
 
     public static void showExtent() {
@@ -50,8 +62,25 @@ public class CarWash implements Serializable {
         }
     }
 
+    public City getCity() {
+        return city;
+    }
+
     public void removeCity() {
         city.removeCarWash(this);
         city = null;
+    }
+
+    public List<CarWash> getCarWashesInLocation(City city) throws Exception{
+        List<CarWash> result = new ArrayList<>();
+        for (CarWash p : extent) {
+            if(p.getCity() == city){
+                result.add(p);
+            }
+        }
+        if(result.isEmpty()){
+            throw new Exception("There are no supported car washes in " + city);
+        }
+        return result;
     }
 }

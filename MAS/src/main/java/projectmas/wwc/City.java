@@ -13,6 +13,11 @@ public class City implements Serializable {
     private List<CarWash> carWashes = new ArrayList<>();
     private static List<City> extent = new ArrayList<>();
 
+    public City(String name) {
+        this.name = name;
+        addCity(this);
+    }
+
     private static void addCity(City city){
         extent.add(city);
     }

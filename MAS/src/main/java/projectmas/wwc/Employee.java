@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 public class Employee extends Person implements Serializable {
@@ -13,6 +14,7 @@ public class Employee extends Person implements Serializable {
     private static int id = 0;
     private static Double discount = 0.15;
     private static List<Employee> extent = new ArrayList<>();
+    private static PersonType personType = PersonType.Employee;
 
     public Employee(String name, String surname, LocalDate birthDate) {
         super(name, surname, birthDate);
@@ -36,12 +38,20 @@ public class Employee extends Person implements Serializable {
         }
     }
 
+    public static PersonType getPersonType() {
+        return personType;
+    }
+
     public static void setDiscount(double d){
         discount = d;
         for (Employee e : extent) {
             e.setPersonDiscount(d);
         }
 
+    }
+
+    public static Double getEmployeesDiscount() {
+        return discount;
     }
 
     public static void writeExtent(ObjectOutputStream stream) throws IOException {

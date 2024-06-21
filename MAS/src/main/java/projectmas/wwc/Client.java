@@ -14,10 +14,23 @@ public class Client extends Person implements Serializable {
     private List<Brand> likedBrands = new ArrayList<>();
     private static List<Client> extent = new ArrayList<>();
 
+    private static PersonType personType = PersonType.Client;
+
     public Client(String name, String surname, LocalDate birthDate) {
         super(name, surname, birthDate);
         idClient = ++id;
         addClient(this);
+    }
+
+    public Client(Employee employee) {
+        super(employee.getName(), employee.getSurname(), employee.getBirthDate());
+        super.setPersonDiscount(Employee.getEmployeesDiscount());
+        idClient = ++id;
+        addClient(this);
+    } //overlapping
+
+    public static PersonType getPersonType() {
+        return personType;
     }
 
     private static void addClient(Client client){
@@ -36,11 +49,17 @@ public class Client extends Person implements Serializable {
     }
 
 
-    public List<Car> showRecommendedCars(){
+    public List<Car> showRecommendedCars() throws Exception {
+        List<Car> result = new ArrayList<>();
         if (isAddedAnyBrand()){
-            //rentalgetcars
-            List<Car> fakeLikedBrands = new ArrayList<>();
-            return fakeLikedBrands;
+            try {
+                for (Brand b : likedBrands) {
+                    result.addAll(Rental.getCarsFromBrand(b));
+                }
+            }catch (Exception e){
+                System.err.println("Caught Exception: " + e.getMessage());
+            }
+            return result;
         }else{
             System.out.println("No liked brands added to client's profile");
             return null;

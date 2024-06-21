@@ -7,9 +7,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
-public class Person implements Serializable {
+public abstract class Person implements Serializable {
     private int idPerson;
     private String name;
     private String surname;
@@ -66,6 +67,10 @@ public class Person implements Serializable {
 
     protected void setPersonDiscount(double disc){
         discount = disc;
+    }
+
+    public static PersonType getPersonType() {
+        return null;
     }
 
     @Override
