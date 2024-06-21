@@ -33,6 +33,21 @@ public class Type implements Serializable {
         }
     }
 
+    public void addCar(Car car) {
+        if(car!=null) {
+            if (!cars.contains(car)) {
+                cars.add(car);
+                car.setType(this);
+            }
+        }
+
+    }
+
+    public void removeCar(Car car){
+        cars.remove(car);
+        car.removeType();
+    }
+
     public static void writeExtent(ObjectOutputStream stream) throws IOException {
         stream.writeObject(extent);
     }

@@ -9,6 +9,7 @@ import java.util.List;
 public class Brand implements Serializable {
     private String name;
     private List<Car> cars = new ArrayList<>();
+    private List<Client> clients = new ArrayList<>();
     private static List<Brand> extent = new ArrayList<>();
 
     public Brand(String name) {
@@ -50,6 +51,20 @@ public class Brand implements Serializable {
 
     public static void readExtent(ObjectInputStream stream) throws IOException, ClassNotFoundException{
         extent = (ArrayList<Brand>) stream.readObject();
+    }
+
+    public void addClient(Client client){
+        if(client!=null) {
+            if (!clients.contains(client)) {
+                clients.add(client);
+                client.addLikedBrands(this);
+            }
+        }
+    }
+
+    public void removeClient(Client client) {
+        clients.remove(client);
+        client.removeLikedBrand(this);
     }
 
     @Override

@@ -39,4 +39,19 @@ public class CarWash implements Serializable {
     public static void readExtent(ObjectInputStream stream) throws IOException, ClassNotFoundException{
         extent = (ArrayList<CarWash>) stream.readObject();
     }
+
+    public void setCity(City newCity){
+        if(!(newCity == null)){
+            if(city != null){
+                removeCity();
+            }
+            this.city = newCity;
+            newCity.addCarWash(this);
+        }
+    }
+
+    public void removeCity() {
+        city.removeCarWash(this);
+        city = null;
+    }
 }

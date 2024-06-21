@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,13 @@ public class Employee extends Person implements Serializable {
     private static int id = 0;
     private static Double discount = 0.15;
     private static List<Employee> extent = new ArrayList<>();
+
+    public Employee(String name, String surname, LocalDate birthDate) {
+        super(name, surname, birthDate);
+        super.setPersonDiscount(discount);
+        idEmployee = ++id;
+        addEmployee(this);
+    }
 
     private static void addEmployee(Employee employee){
         extent.add(employee);
@@ -29,8 +37,9 @@ public class Employee extends Person implements Serializable {
     }
 
     public static void setDiscount(double d){
+        discount = d;
         for (Employee e : extent) {
-            e.discount = d;
+            e.setPersonDiscount(d);
         }
 
     }

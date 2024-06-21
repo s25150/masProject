@@ -19,11 +19,12 @@ public class Car implements Serializable {
     private LocalDate dateOfCreation;
     private int rentCost;
     private Rental rental;
+    private Type type;
     private static int id = 0;
     private List<CarRent> carRents = new ArrayList<>();
     private static List<Car> extent = new ArrayList<>();
 
-    public Car(Brand brand, String model, Engine engine, int yearOfManufacture, int numberOfDoors, int rentCost) {
+    public Car(Brand brand, Type type, String model, Engine engine, int yearOfManufacture, int numberOfDoors, int rentCost) {
         this.setBrand(brand);
         this.model = model;
         this.engine = engine;
@@ -31,9 +32,27 @@ public class Car implements Serializable {
         this.numberOfDoors = numberOfDoors;
         this.dateOfCreation = LocalDate.now();
         this.rentCost = rentCost;
+        this.setType(type);
         idCar = ++id;
         addCar(this);
     }
+
+    public void setType(Type newType) {
+        if(!(newType == null)){
+            if(type != null){
+                removeType();
+            }
+            type = newType;
+            newType.addCar(this);
+        }
+    }
+
+    public void removeType(){
+        type.removeCar(this);
+        type = null;
+    }
+
+
 
     public void setRental(Rental newRental){
         if(newRental!=null) {

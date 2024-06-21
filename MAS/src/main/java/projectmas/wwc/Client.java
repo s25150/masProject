@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,12 @@ public class Client extends Person implements Serializable {
     private static int id = 0;
     private List<Brand> likedBrands = new ArrayList<>();
     private static List<Client> extent = new ArrayList<>();
+
+    public Client(String name, String surname, LocalDate birthDate) {
+        super(name, surname, birthDate);
+        idClient = ++id;
+        addClient(this);
+    }
 
     private static void addClient(Client client){
         extent.add(client);
@@ -28,9 +35,6 @@ public class Client extends Person implements Serializable {
         }
     }
 
-    public void addLikedBrands(Brand brand){
-        likedBrands.add(brand);
-    }
 
     public List<Car> showRecommendedCars(){
         if (isAddedAnyBrand()){
@@ -59,11 +63,25 @@ public class Client extends Person implements Serializable {
         if(likedBrands.isEmpty()){
             System.out.println(this.getName() + " has 0 liked brands");
         }else {
-            System.out.println("Liked brands of " + this.getName() + ": ");
+            System.out.println("Liked brands of " + this.getName() + " " + this.getSurname() + ": ");
             for (Brand s : likedBrands) {
                 System.out.print(s + " ");
             }
             System.out.println();
         }
+    }
+
+    public void addLikedBrands(Brand brand){
+        if(brand != null){
+            if(!(likedBrands.contains(brand))){
+                likedBrands.add(brand);
+                brand.addClient(this);
+            }
+        }
+    }
+
+    public void removeLikedBrand(Brand brand) {
+        likedBrands.remove(brand);
+        brand.removeClient(this);
     }
 }
