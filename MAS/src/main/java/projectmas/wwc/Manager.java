@@ -17,6 +17,7 @@ public class Manager extends Employee implements Serializable {
 
     public Manager(String name, String surname, LocalDate birthDate) {
         super(name, surname, birthDate);
+        addManager(this);
     }
 
     public void addRentalsQualif(Rental newRental){

@@ -10,20 +10,23 @@ import java.util.List;
 
 public class Client extends Person implements Serializable {
     private int idClient;
+    private String login;
     private static int id = 0;
     private List<Brand> likedBrands = new ArrayList<>();
     private static List<Client> extent = new ArrayList<>();
 
     private static PersonType personType = PersonType.Client;
 
-    public Client(String name, String surname, LocalDate birthDate) {
+    public Client(String name, String surname, LocalDate birthDate, String login) {
         super(name, surname, birthDate);
+        this.login = login;
         idClient = ++id;
         addClient(this);
     }
 
-    public Client(Employee employee) {
+    public Client(Employee employee, String login) {
         super(employee.getName(), employee.getSurname(), employee.getBirthDate());
+        this.login = login;
         super.setPersonDiscount(Employee.getEmployeesDiscount());
         idClient = ++id;
         addClient(this);
@@ -78,7 +81,7 @@ public class Client extends Person implements Serializable {
         extent = (ArrayList<Client>) stream.readObject();
     }
 
-    public void getLikedBrands() {
+    public List<Brand> getLikedBrands() {
         if(likedBrands.isEmpty()){
             System.out.println(this.getName() + " has 0 liked brands");
         }else {
@@ -88,6 +91,20 @@ public class Client extends Person implements Serializable {
             }
             System.out.println();
         }
+        return likedBrands;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public static List<Brand> getLikedBrands(String string) {
+        for (Client p : extent) {
+            if(p.getLogin().equals(string)){
+                return p.likedBrands;
+            }
+        }
+        return null;
     }
 
     public void addLikedBrands(Brand brand){

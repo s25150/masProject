@@ -13,13 +13,15 @@ public class Rental implements Serializable {
     private String idRental;
     private List<Car> cars = new ArrayList<>();
     private List<Manager> managers = new ArrayList<>();
-    private List<RentalEmployee> employees;
-    private static List<Car> allCars;
-    private static List<RentalEmployee> allEmployees;
+    private List<RentalEmployee> employees = new ArrayList<>();
+    private static List<Car> allCars = new ArrayList<>();
+    private static List<RentalEmployee> allEmployees = new ArrayList<>();
     private static List<Rental> extent = new ArrayList<>();
 
-    public Rental(String rentalId) {
+    public Rental(City city, String address, String rentalId) {
         this.idRental = rentalId;
+        this.setCity(city);
+        this.address = address;
         addRental(this);
     }
 
@@ -47,6 +49,11 @@ public class Rental implements Serializable {
         for (Rental p : extent) {
             System.out.println(p);
         }
+    }
+
+
+    public static List<Rental> getExtent(){
+        return extent;
     }
 
     public static void writeExtent(ObjectOutputStream stream) throws IOException {
@@ -93,7 +100,16 @@ public class Rental implements Serializable {
                 removeCity();
             }
             this.city = newCity;
-            newCity.addRental(this);
+            newCity.addRentalCity(this);
+        }
+    }
+
+    public void setCityRental(City newCity){
+        if(!(newCity == null)){
+            if(city != null){
+                removeCity();
+            }
+            this.city = newCity;
         }
     }
 
@@ -102,7 +118,11 @@ public class Rental implements Serializable {
     }
 
     public void removeCity() {
-        city.removeRental(this);
+        city.removeRentalCity(this);
+        city = null;
+    }
+
+    public void removeCityRental() {
         city = null;
     }
 
@@ -129,7 +149,7 @@ public class Rental implements Serializable {
         return result;
     }
 
-    public static List<Car> getCarsFromBrand(Brand brand) throws Exception {
+    /*public static List<Car> getCarsFromBrand(Brand brand) throws Exception {
         List<Car> result = new ArrayList<>();
         for (Car c : allCars) {
             if(c.getBrand() == brand){
@@ -140,6 +160,41 @@ public class Rental implements Serializable {
             throw new Exception("There are no available cars from brand " + brand);
         }
         return result;
+    }*/
+
+    public static List<Car> getCarsFromBrand(Brand brand) throws Exception {
+        List<Car> result = new ArrayList<>();
+        for (Car c : allCars) {
+            if (c.getBrand() == brand) {
+                result.add(c);
+            }
+        }
+        return result;
     }
 
+    public static List<Car> getCarsFromBrands(List<Brand> brands) throws Exception {
+        List<Car> result = new ArrayList<>();
+        for (Brand b : brands) {
+            result.addAll(getCarsFromBrand(b));
+        }
+        if (result.isEmpty()) {
+            throw new Exception("There are no available cars from the specified brands");
+        }
+        return result;
+    }
+
+    public static List<Car> getAllCars(){
+        return allCars;
+    }
+
+    public List<Car> getCars(){
+        return cars;
+    }
+
+    @Override
+    public String toString() {
+        return idRental +
+                " | " + city +
+                " | " + address;
+    }
 }

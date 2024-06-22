@@ -46,27 +46,54 @@ public class City implements Serializable {
         if(rental!=null) {
             if (!rentals.contains(rental)) {
                 rentals.add(rental);
-                rental.setCity(this);
+                rental.setCityRental(this);
+            }
+        }
+    }
+
+    public void addRentalCity(Rental rental) {
+        if(rental!=null) {
+            if (!rentals.contains(rental)) {
+                rentals.add(rental);
             }
         }
     }
 
     public void removeRental(Rental rental){
         rentals.remove(rental);
-        rental.removeCity();
+        rental.removeCityRental();
+    }
+    public void removeRentalCity(Rental rental){
+        rentals.remove(rental);
     }
 
     public void addCarWash(CarWash carWash) {
         if(carWash!=null) {
             if (!carWashes.contains(carWash)) {
                 carWashes.add(carWash);
-                carWash.setCity(this);
+                carWash.setCityCarWash(this);
+            }
+        }
+    }
+    public void addCarWashCity(CarWash carWash) {
+        if(carWash!=null) {
+            if (!carWashes.contains(carWash)) {
+                carWashes.add(carWash);
             }
         }
     }
 
     public void removeCarWash(CarWash carWash){
         carWashes.remove(carWash);
-        carWash.removeCity();
+        carWash.removeCityCarWash();
+    }
+
+    public void removeCarWashCity(CarWash carWash){
+        carWashes.remove(carWash);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

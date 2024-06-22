@@ -24,7 +24,7 @@ public class Car implements Serializable {
     private List<CarRent> carRents = new ArrayList<>();
     private static List<Car> extent = new ArrayList<>();
 
-    public Car(Brand brand, Type type, String model, Engine engine, int yearOfManufacture, int numberOfDoors, int rentCost) {
+    public Car(Brand brand, String model, Type type, Engine engine, int yearOfManufacture, int numberOfDoors, int rentCost) {
         this.setBrand(brand);
         this.model = model;
         this.engine = engine;
@@ -43,12 +43,24 @@ public class Car implements Serializable {
                 removeType();
             }
             type = newType;
-            newType.addCar(this);
+            newType.addCarType(this);
+        }
+    }
+    public void setTypeCar(Type newType) {
+        if(!(newType == null)){
+            if(type != null){
+                removeType();
+            }
+            type = newType;
         }
     }
 
     public void removeType(){
-        type.removeCar(this);
+        type.removeCarType(this);
+        type = null;
+    }
+
+    public void removeTypeCar(){
         type = null;
     }
 
@@ -147,12 +159,25 @@ public class Car implements Serializable {
                 removeBrand();
             }
             this.brand = newBrand;
-            brand.addCar(this);
+            brand.addCarBrand(this);
+        }
+    }
+
+    public void setBrandCar(Brand newBrand) {
+        if(newBrand!=null) {
+            if (!(brand == null)) {
+                removeBrand();
+            }
+            this.brand = newBrand;
         }
     }
 
     public void removeBrand(){
-        brand.removeCar(this);
+        brand.removeCarBrand(this);
+        brand = null;
+    }
+
+    public void removeBrandCar(Car car) {
         brand = null;
     }
 
@@ -162,5 +187,14 @@ public class Car implements Serializable {
         }else{
             this.rentCost = cost;
         }
+    }
+
+    @Override
+    public String toString() {
+        return  brand +
+                " | " + model +
+                " | " + engine +
+                " | " + yearOfManufacture +
+                " | " + type;
     }
 }

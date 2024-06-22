@@ -14,20 +14,32 @@ public class Brand implements Serializable {
 
     public Brand(String name) {
         this.name = name;
+        addBrand(this);
     }
 
     public void addCar(Car car){
         if(car!=null) {
             if (!cars.contains(car)) {
                 cars.add(car);
-                car.setBrand(this);
+                car.setBrandCar(this);
+            }
+        }
+    }
+    public void addCarBrand(Car car){
+        if(car!=null) {
+            if (!cars.contains(car)) {
+                cars.add(car);
             }
         }
     }
 
     public void removeCar(Car car) {
         cars.remove(car);
-        car.removeBrand();
+        car.removeBrandCar(car);
+    }
+
+    public void removeCarBrand(Car car) {
+        cars.remove(car);
     }
 
     private static void addBrand(Brand brand){
@@ -69,8 +81,6 @@ public class Brand implements Serializable {
 
     @Override
     public String toString() {
-        return "Brand{" +
-                "name='" + name + '\'' +
-                '}';
+        return name;
     }
 }

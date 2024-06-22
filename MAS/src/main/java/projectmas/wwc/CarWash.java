@@ -58,7 +58,16 @@ public class CarWash implements Serializable {
                 removeCity();
             }
             this.city = newCity;
-            newCity.addCarWash(this);
+            newCity.addCarWashCity(this);
+        }
+    }
+
+    public void setCityCarWash(City newCity){
+        if(!(newCity == null)){
+            if(city != null){
+                removeCity();
+            }
+            this.city = newCity;
         }
     }
 
@@ -67,7 +76,11 @@ public class CarWash implements Serializable {
     }
 
     public void removeCity() {
-        city.removeCarWash(this);
+        city.removeCarWashCity(this);
+        city = null;
+    }
+
+    public void removeCityCarWash() {
         city = null;
     }
 

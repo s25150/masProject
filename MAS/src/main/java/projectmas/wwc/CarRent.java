@@ -22,8 +22,9 @@ public class CarRent <T extends Person> implements Serializable {
         this.endDateOfRent = endDateOfRent;//do przerobienia w zaleznosci od IsPerson albo IsEmployee
         this.setPerson(renter);
         this.setCar(rentedCar);
-        setRentType(renter);
+        this.setRentType(renter);
         totalCost = getTotalCost(renter, rentedCar, startDateOfRent, endDateOfRent);
+        addCarRent(this);
     }
 
     private void setRentType(T person){

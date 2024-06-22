@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Type implements Serializable {
-    private String Name;
+    private String name;
     private List<Car> cars = new ArrayList<>();
     private static List<Type> extent = new ArrayList<>();
 
     public Type(String name) {
-        Name = name;
+        this.name = name;
         addType(this);
     }
 
@@ -36,14 +36,26 @@ public class Type implements Serializable {
         if(car!=null) {
             if (!cars.contains(car)) {
                 cars.add(car);
-                car.setType(this);
+                car.setTypeCar(this);
+            }
+        }
+    }
+
+    public void addCarType(Car car) {
+        if(car!=null) {
+            if (!cars.contains(car)) {
+                cars.add(car);
             }
         }
     }
 
     public void removeCar(Car car){
         cars.remove(car);
-        car.removeType();
+        car.removeTypeCar();
+    }
+
+    public void removeCarType(Car car){
+        cars.remove(car);
     }
 
     public static void writeExtent(ObjectOutputStream stream) throws IOException {
@@ -54,4 +66,8 @@ public class Type implements Serializable {
         extent = (ArrayList<Type>) stream.readObject();
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }
